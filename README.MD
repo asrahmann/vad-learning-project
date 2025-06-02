@@ -35,6 +35,11 @@ This project was undertaken specifically to understand and implement Voice Activ
 * Microphone selection from available input devices.
 * Includes overflow detection for the input audio stream to help diagnose capture issues.
 
+## Future Enhancements
+
+* **Web-based Interface:** The `index.html` file is a placeholder for a planned web interface to provide easier control and visualization of the VAD process. This is currently under development.
+
+
 ## Setup and Installation
 
 1.  **Prerequisites:**
