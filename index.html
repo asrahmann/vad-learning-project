@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real-Time Voice Visualizer</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      font-family: sans-serif;
+      flex-direction: column;
+    }
+    #circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #0f0;
+      opacity: 0.6;
+      transition: all 0.1s ease-out;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div id="circle"></div>
+  <div id="status">Initializing microphone...</div>
+  <script>
+    const circle = document.getElementById('circle');
+    const status = document.getElementById('status');
+
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(stream => {
+        status.textContent = 'Listening...';
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaStreamSource(stream);
+        const analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 512;
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        source.connect(analyser);
+
+        function animate() {
+          analyser.getByteTimeDomainData(dataArray);
+
+          let sum = 0;
+          for (let i = 0; i < dataArray.length; i++) {
+            const val = (dataArray[i] - 128) / 128;
+            sum += val * val;
+          }
+          const rms = Math.sqrt(sum / dataArray.length);
+          const scale = Math.min(2, Math.max(1, rms * 30));
+
+          circle.style.transform = `scale(${scale})`;
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+      })
+      .catch(err => {
+        status.textContent = 'Microphone access denied.';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>

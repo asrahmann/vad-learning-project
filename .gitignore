@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+.gitignore
+
+# Virtual Environment
+# If your virtual environment folder is named 'venv311' as shown in the image
+venv311/
+# Or a more general rule if you use other names like 'venv', '.venv', 'env'
+# venv/
+# .venv/
+# env/
+
+# Recordings - You generally don't want to commit all your test recordings
+# to the repository unless they are specific examples for demonstration.
+vad_iterator_recordings/
+vad_test_recordings/
+# If 'vad_test' also contains recordings or transient files, add it too:
+# vad_test/
+
+# IDE / Editor specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Sensitive files (if any, add them here)
+# .env
+# secrets.txt
+
+# Log files (if you start generating them)
+*.log
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
